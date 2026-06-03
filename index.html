@@ -24,12 +24,12 @@ header{
 
 /* SEARCH */
 .search{
-    padding:15px;
+    padding:12px;
     text-align:center;
 }
 
 .search input{
-    width:90%;
+    width:92%;
     padding:12px;
     border:none;
     border-radius:10px;
@@ -40,15 +40,15 @@ header{
 .filters{
     display:flex;
     justify-content:center;
-    gap:10px;
-    margin-bottom:10px;
+    gap:8px;
     flex-wrap:wrap;
+    padding:10px;
 }
 
 .filters button{
     background:#1f2937;
-    color:white;
     border:none;
+    color:white;
     padding:8px 12px;
     border-radius:8px;
     cursor:pointer;
@@ -93,7 +93,7 @@ header{
 /* POPUP */
 .popup{
     position:fixed;
-    top:0; left:0;
+    top:0;left:0;
     width:100%;
     height:100%;
     background:rgba(0,0,0,0.8);
@@ -104,8 +104,8 @@ header{
 
 .popup-content{
     background:#111827;
-    padding:20px;
     width:300px;
+    padding:15px;
     border-radius:12px;
     text-align:center;
 }
@@ -117,9 +117,9 @@ header{
 
 .btn{
     display:block;
-    margin-top:10px;
     background:#22c55e;
     padding:10px;
+    margin-top:10px;
     border-radius:8px;
     color:white;
     text-decoration:none;
@@ -138,8 +138,8 @@ header{
     align-items:center;
     justify-content:center;
     font-size:28px;
-    color:white;
     text-decoration:none;
+    color:white;
     z-index:999;
 }
 </style>
@@ -147,7 +147,7 @@ header{
 
 <body>
 
-<header>🔥 المتجر الاحترافي للألعاب والتطبيقات</header>
+<header>🔥 المتجر الاحترافي الكامل</header>
 
 <div class="search">
 <input type="text" id="search" placeholder="ابحث عن تطبيق أو لعبة...">
@@ -165,61 +165,35 @@ header{
 <!-- POPUP -->
 <div class="popup" id="popup" onclick="this.style.display='none'">
 <div class="popup-content" onclick="event.stopPropagation()">
-<img id="pimg">
-<h3 id="ptitle"></h3>
-<p id="pdesc"></p>
+<img id="img">
+<h3 id="title"></h3>
+<p id="desc"></p>
 <p>⭐ التقييم: 4.5</p>
 <a class="btn" href="#">تحميل</a>
 </div>
 </div>
 
 <!-- WHATSAPP -->
-<a class="whatsapp" href="https://wa.me/905xxxxxxxxx" target="_blank">💬</a>
+<a class="whatsapp" href="https://wa.me/905xxxxxxxxx">💬</a>
 
 <script>
-// ===== DATA =====
+
 const apps = [
-{
-name:"Likee",
-cat:"chat",
-img:"https://via.placeholder.com/300x200?text=Likee",
-desc:"تطبيق فيديوهات قصيرة وبث مباشر"
-},
-{
-name:"PartyStar",
-cat:"chat",
-img:"https://via.placeholder.com/300x200?text=PartyStar",
-desc:"غرف دردشة صوتية ممتعة"
-},
-{
-name:"لعبة الأكشن",
-cat:"game",
-img:"https://via.placeholder.com/300x200?text=Action",
-desc:"لعبة قتال مليئة بالإثارة"
-},
-{
-name:"لعبة سباق",
-cat:"game",
-img:"https://via.placeholder.com/300x200?text=Racing",
-desc:"سباق سيارات واقعي"
-},
-{
-name:"أدوات الهاتف",
-cat:"app",
-img:"https://via.placeholder.com/300x200?text=Tools",
-desc:"تحسين أداء الهاتف"
-}
+{name:"Likee",cat:"chat",img:"https://via.placeholder.com/300x200?text=Likee",desc:"فيديوهات قصيرة وبث مباشر"},
+{name:"PartyStar",cat:"chat",img:"https://via.placeholder.com/300x200?text=PartyStar",desc:"دردشة صوتية ممتعة"},
+{name:"لعبة الأكشن",cat:"game",img:"https://via.placeholder.com/300x200?text=Game",desc:"لعبة قتال وإثارة"},
+{name:"لعبة سباق",cat:"game",img:"https://via.placeholder.com/300x200?text=Race",desc:"سباق سيارات سريع"},
+{name:"أدوات الهاتف",cat:"app",img:"https://via.placeholder.com/300x200?text=Tools",desc:"تحسين أداء الهاتف"}
 ];
 
-let current = "all";
+let current="all";
 
-// ===== RENDER =====
 function show(list){
-let grid = document.getElementById("grid");
-grid.innerHTML = "";
+let grid=document.getElementById("grid");
+grid.innerHTML="";
 
 list.forEach(a=>{
-let div = document.createElement("div");
+let div=document.createElement("div");
 div.className="card";
 div.innerHTML=`
 <img src="${a.img}">
@@ -232,34 +206,20 @@ grid.appendChild(div);
 
 show(apps);
 
-// ===== FILTER =====
-function filter(cat){
-current = cat;
+function filter(c){
+current=c;
 apply();
 }
 
 function apply(){
-let q = document.getElementById("search").value.toLowerCase();
+let q=document.getElementById("search").value.toLowerCase();
 
-let f = apps.filter(a=>{
-let matchCat = current=="all" || a.cat==current;
-let matchSearch = a.name.toLowerCase().includes(q);
-return matchCat && matchSearch;
+let f=apps.filter(a=>{
+return (current=="all" || a.cat==current)
+&& a.name.toLowerCase().includes(q);
 });
 
 show(f);
 }
 
-document.getElementById("search").addEventListener("input",apply);
-
-// ===== POPUP =====
-function openPopup(app){
-document.getElementById("popup").style.display="flex";
-document.getElementById("pimg").src=app.img;
-document.getElementById("ptitle").innerText=app.name;
-document.getElementById("pdesc").innerText=app.desc;
-}
-</script>
-
-</body>
-</html>
+document.getElementById("search").addEventListener("
