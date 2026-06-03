@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المتجر الاحترافي</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0b1220;
+    color:white;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    padding:18px;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* SEARCH */
+.search{
+    padding:15px;
+    text-align:center;
+}
+
+.search input{
+    width:90%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+}
+
+/* FILTER */
+.filters{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+}
+
+.filters button{
+    background:#1f2937;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.filters button:hover{
+    background:#3b82f6;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:12px;
+    padding:10px;
+}
+
+.card{
+    background:#1f2937;
+    border-radius:12px;
+    overflow:hidden;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card img{
+    width:100%;
+    height:110px;
+    object-fit:cover;
+}
+
+.card p{
+    margin:8px 0;
+    font-weight:bold;
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+.popup-content{
+    background:#111827;
+    padding:20px;
+    width:300px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.popup-content img{
+    width:100%;
+    border-radius:10px;
+}
+
+.btn{
+    display:block;
+    margin-top:10px;
+    background:#22c55e;
+    padding:10px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+}
+
+/* WHATSAPP */
+.whatsapp{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:60px;
+    height:60px;
+    background:#25D366;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    color:white;
+    text-decoration:none;
+    z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔥 المتجر الاحترافي للألعاب والتطبيقات</header>
+
+<div class="search">
+<input type="text" id="search" placeholder="ابحث عن تطبيق أو لعبة...">
+</div>
+
+<div class="filters">
+<button onclick="filter('all')">الكل</button>
+<button onclick="filter('chat')">دردشة</button>
+<button onclick="filter('game')">ألعاب</button>
+<button onclick="filter('app')">أدوات</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup" onclick="this.style.display='none'">
+<div class="popup-content" onclick="event.stopPropagation()">
+<img id="pimg">
+<h3 id="ptitle"></h3>
+<p id="pdesc"></p>
+<p>⭐ التقييم: 4.5</p>
+<a class="btn" href="#">تحميل</a>
+</div>
+</div>
+
+<!-- WHATSAPP -->
+<a class="whatsapp" href="https://wa.me/905xxxxxxxxx" target="_blank">💬</a>
+
+<script>
+// ===== DATA =====
+const apps = [
+{
+name:"Likee",
+cat:"chat",
+img:"https://via.placeholder.com/300x200?text=Likee",
+desc:"تطبيق فيديوهات قصيرة وبث مباشر"
+},
+{
+name:"PartyStar",
+cat:"chat",
+img:"https://via.placeholder.com/300x200?text=PartyStar",
+desc:"غرف دردشة صوتية ممتعة"
+},
+{
+name:"لعبة الأكشن",
+cat:"game",
+img:"https://via.placeholder.com/300x200?text=Action",
+desc:"لعبة قتال مليئة بالإثارة"
+},
+{
+name:"لعبة سباق",
+cat:"game",
+img:"https://via.placeholder.com/300x200?text=Racing",
+desc:"سباق سيارات واقعي"
+},
+{
+name:"أدوات الهاتف",
+cat:"app",
+img:"https://via.placeholder.com/300x200?text=Tools",
+desc:"تحسين أداء الهاتف"
+}
+];
+
+let current = "all";
+
+// ===== RENDER =====
+function show(list){
+let grid = document.getElementById("grid");
+grid.innerHTML = "";
+
+list.forEach(a=>{
+let div = document.createElement("div");
+div.className="card";
+div.innerHTML=`
+<img src="${a.img}">
+<p>${a.name}</p>
+`;
+div.onclick=()=>openPopup(a);
+grid.appendChild(div);
+});
+}
+
+show(apps);
+
+// ===== FILTER =====
+function filter(cat){
+current = cat;
+apply();
+}
+
+function apply(){
+let q = document.getElementById("search").value.toLowerCase();
+
+let f = apps.filter(a=>{
+let matchCat = current=="all" || a.cat==current;
+let matchSearch = a.name.toLowerCase().includes(q);
+return matchCat && matchSearch;
+});
+
+show(f);
+}
+
+document.getElementById("search").addEventListener("input",apply);
+
+// ===== POPUP =====
+function openPopup(app){
+document.getElementById("popup").style.display="flex";
+document.getElementById("pimg").src=app.img;
+document.getElementById("ptitle").innerText=app.name;
+document.getElementById("pdesc").innerText=app.desc;
+}
+</script>
+
+</body>
+</html>
