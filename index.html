@@ -3,36 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المتجر الاحترافي</title>
+<title>الهاشمي ULTIMATE STORE</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial;
-background:#0b1220;
+background:#0a0a0a;
 color:white;
+direction:rtl;
 }
 
+/* HEADER */
 header{
-background:linear-gradient(90deg,#2563eb,#7c3aed);
-padding:20px;
+background:linear-gradient(90deg,#000,#b8860b,#999);
+padding:15px;
 text-align:center;
 font-weight:bold;
-font-size:20px;
+font-size:18px;
 }
 
+/* HERO */
+.hero{
+padding:15px;
+text-align:center;
+background:#111;
+border-bottom:1px solid #333;
+}
+
+.hero h1{
+color:gold;
+margin:0;
+}
+
+.hero p{
+color:silver;
+font-size:14px;
+}
+
+/* SEARCH */
+.search{
+padding:10px;
+}
+
+.search input{
+width:92%;
+padding:12px;
+border:none;
+border-radius:10px;
+outline:none;
+}
+
+/* CATEGORY */
+.cat{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+justify-content:center;
+padding:10px;
+}
+
+.cat button{
+background:#111;
+border:1px solid #333;
+color:white;
+padding:8px 12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.cat button:hover{
+border-color:gold;
+}
+
+/* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:10px;
 padding:10px;
 }
 
 .card{
-background:#1f2937;
+background:#111;
+border:1px solid #333;
 border-radius:12px;
 text-align:center;
-overflow:hidden;
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+border-color:gold;
 }
 
 .card img{
@@ -42,47 +105,160 @@ object-fit:cover;
 }
 
 .card p{
-margin:8px 0;
+margin:6px;
+color:silver;
 font-weight:bold;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+.box{
+background:#111;
+border:1px solid gold;
+padding:15px;
+width:300px;
+border-radius:12px;
+text-align:center;
+}
+
+.box img{
+width:100%;
+border-radius:10px;
 }
 
 .btn{
 display:block;
-margin:8px;
-padding:8px;
-background:#22c55e;
-color:white;
+margin-top:10px;
+padding:10px;
+background:gold;
+color:black;
+font-weight:bold;
 text-decoration:none;
 border-radius:8px;
+}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;
+bottom:15px;
+right:15px;
+width:60px;
+height:60px;
+background:#25D366;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+text-decoration:none;
+color:white;
+box-shadow:0 0 10px #25D366;
 }
 </style>
 </head>
 
 <body>
 
-<header>🔥 متجر الهاشمي للتطبيقات</header>
+<header>💎 الهاشمي ULTIMATE STORE</header>
 
-<div class="grid">
-
-<div class="card">
-<img src="https://via.placeholder.com/300x200?text=Likee">
-<p>Likee</p>
-<a class="btn" href="#">تحميل</a>
+<div class="hero">
+<h1>🔥 متجر الهاشمي الاحترافي</h1>
+<p>أفضل متجر تطبيقات - ألعاب - بطاقات - خدمات</p>
 </div>
 
-<div class="card">
-<img src="https://via.placeholder.com/300x200?text=PartyStar">
-<p>PartyStar</p>
-<a class="btn" href="#">تحميل</a>
+<div class="search">
+<input type="text" id="search" placeholder="ابحث داخل المتجر...">
 </div>
 
-<div class="card">
-<img src="https://via.placeholder.com/300x200?text=Game">
-<p>لعبة الأكشن</p>
-<a class="btn" href="#">تحميل</a>
+<div class="cat">
+<button onclick="filter('all')">الكل</button>
+<button onclick="filter('game')">ألعاب</button>
+<button onclick="filter('app')">تطبيقات</button>
+<button onclick="filter('card')">بطاقات</button>
+<button onclick="filter('social')">سوشيال</button>
 </div>
 
+<div class="grid" id="grid"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup" onclick="this.style.display='none'">
+<div class="box" onclick="event.stopPropagation()">
+<img id="img">
+<h3 id="title"></h3>
+<p id="desc"></p>
+<p>⭐ تقييم 4.7</p>
+<a id="wa" class="btn" target="_blank">طلب عبر واتساب</a>
 </div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/936994153032">💬</a>
+
+<script>
+
+const apps=[
+{name:"لعبة الأكشن",cat:"game",img:"https://picsum.photos/seed/g1/400/300",desc:"لعبة قتال قوية"},
+{name:"لعبة سباق",cat:"game",img:"https://picsum.photos/seed/g2/400/300",desc:"سباقات سيارات"},
+{name:"Likee",cat:"app",img:"https://picsum.photos/seed/a1/400/300",desc:"فيديوهات قصيرة"},
+{name:"PartyStar",cat:"social",img:"https://picsum.photos/seed/a2/400/300",desc:"دردشة صوتية"},
+{name:"Google Play Card",cat:"card",img:"https://picsum.photos/seed/c1/400/300",desc:"بطاقات شحن"}
+];
+
+let current="all";
+
+function render(list){
+let g=document.getElementById("grid");
+g.innerHTML="";
+list.forEach(a=>{
+let d=document.createElement("div");
+d.className="card";
+d.innerHTML=`
+<img src="${a.img}">
+<p>${a.name}</p>
+`;
+d.onclick=()=>open(a);
+g.appendChild(d);
+});
+}
+
+render(apps);
+
+function filter(c){
+current=c;
+apply();
+}
+
+function apply(){
+let q=document.getElementById("search").value.toLowerCase();
+
+let f=apps.filter(a=>{
+return (current=="all"||a.cat==current)
+&& a.name.toLowerCase().includes(q);
+});
+
+render(f);
+}
+
+document.getElementById("search").addEventListener("input",apply);
+
+function open(a){
+document.getElementById("popup").style.display="flex";
+document.getElementById("img").src=a.img;
+document.getElementById("title").innerText=a.name;
+document.getElementById("desc").innerText=a.desc;
+
+document.getElementById("wa").href=
+"https://wa.me/936994153032?text="+encodeURIComponent("طلب: "+a.name);
+}
+
+</script>
 
 </body>
 </html>
